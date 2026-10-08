@@ -84,7 +84,7 @@ ggplot(jobs, aes(x = years_of_experience, y = median_wage_rate)) +
 
 Which of these plots would you choose to describe the relationship between wages and years of experience --- linear, quadratic or cubic? When you choose, consider how you would like to strike the balance between accuracy and complexity of the model --- especially when you describe what the model predicts (the shape of the fit) to a person who doesn't understand data analysis very much. Hints: Consider how you think wage rate grows with years of experiences, general trends (up, down), peaks, plateau.
 
-I sometimes find it helpful to label the dots to get a general sense of what the data is saying. 
+I sometimes find it helpful to label a few dots to get a general "feel" for what the data is saying. 
 
 ```{r wage-experience-labelled}
 
@@ -172,6 +172,7 @@ ggplot(jobs, aes(x = avg_years_of_education, y = median_wage_rate)) +
   ) +
   theme_minimal()
 ```
+
 There are 3 income groups for a given occupation --- high, medium and low. Each of the income groups are given by a dummy variable. Let's see some examples.
 
 ```{r example-income-groups-display}
@@ -246,6 +247,8 @@ ggplot(jobs, aes(x = avg_years_of_education,
   theme_minimal()
 ```
 
+This model assumes all occupations have on average, the same increase of wages predicted by an additional year of education.
+
 Now fit 3 lines through the 3 income groups, with each line having the same slope.
 
 To do so, start with the regression below. Why did we leave out the low income occupation group?
@@ -319,6 +322,8 @@ ggplot(jobs, aes(x = avg_years_of_education,
   theme_minimal()
 ```
 
+This model predicts that high income earners wages are greater than middle income earners, which is greater than low income earners, on average.
+But given their income group, an additional year of education predicts the same increase in wages, on average.
 
 Which line fit feels more honest? The one with 3 lines, or with one line? Why?
 
@@ -368,16 +373,13 @@ ggplot(jobs, aes(x = avg_years_of_education,
 
 ```
 
+This model predicts that each additional year of education gives on average, a larger rise of wages for high income earners, compared to medium income earners; and similarly, a larger rise in wages for medium income earners compared to low income earners.
 
 Write the model for each plot. Do you see that each model excludes predictors that the next model includes?
 
+Which of these 3 models would you pick and why?
+
 Approximately (no need to calculate this), what's the average years of education and wage rate for each income group? Hint: read the horizontal and vertical axis value for the midpoint of each line.
-
-Which of the 3 models --- fitted slope on full data, same slope for 3 income groups, different slopes for 3 income groups --- incorporates differences in wages across income groups?
-
-Which of the 3 models --- fitted slope on full data, same slope for 3 income groups, different slopes for 3 income groups --- incorporates differences in education across income groups?
-
-Is accounting for a one-year difference between income groups, a good enough reason to choose the most complex model?
 
 
 ## 1.3: Visualizing multiple linear regressions
@@ -436,11 +438,7 @@ tidy(wage_income_reg)
 ```
 
 
-The intercept is the same as?
-Can I exactly get the averages for the medium and high income groups using the coefficients of the dummy variables? 
-
-
-What do you conclude about the coefficients of the dummy variables in this regression? What do they help you calculate?
+What do you conclude about the coefficients of the dummy variables in this regression? What do they help you calculate? (Hint: The intercept is the same as? Can I exactly get the averages for the medium and high income groups using the coefficients of the dummy variables?)
 
 
 Similarly, for education.
@@ -530,7 +528,10 @@ ggplot(
 ```
 
 
-In this picture, the residual gives the deviation of each job's wage rate from the average wage rate of the ____ income group.
+How do you identify the residual in this plot?
+
+
+In the picture above, the residual gives the deviation of each job's wage rate from the average wage rate of the ____ income group.
 
 
 ```{r educ-income-scatter-lowinc}
@@ -568,10 +569,10 @@ ggplot(
 ```
 
 
-In this picture, the residual gives the deviation of each job's years of education from the average years of education of the ____ income group.
+In the picture above, the residual gives the deviation of each job's years of education from the average years of education of the ____ income group.
 
 
-Back to our old plot but adding the fitted values.
+Back to our old plot but adding fitted values.
 
 
 ```{r wage-income-scatter-w-fittedavg}
@@ -864,6 +865,8 @@ ggplot(jobs, aes(x = education_residual,
 
 ```
 
+What's the intercept of this line?
+
 Let's find the slope of this line, and compare it to a coefficient from the old regression for 3 lines with the same slope.
 
 
@@ -926,7 +929,13 @@ We regressed the within income group wages against the within income group years
 
 $$Wage_i = \beta_0 + \beta_1 Education_i + \beta_2MediumIncome_i + \beta_3HighIncome_i + \varepsilon_i.$$
 
-Therefore, $\beta_1$ can be interpreted as: how within an income group, an extra year of education is associated with an increase in wage per hour.
+Therefore, $\hat{\beta_1}$ can be interpreted as: how within an income group, an extra year of education in any job is associated with an increase in wage per hour.
+OR
+For a given an income group, $\hat{\beta_1}$ gives the average increase in wage, for an increase in a year of education in any job.
+OR
+Accounting for broad differences between high, medium and low income occupations, $\hat{\beta_1}$ gives the average increase in wage, for an increase in a year of education in any job.
+
+Seeing this graph, which model would you pick?
 
 ## 1.4: Visualizing the many-predictor problem
 
